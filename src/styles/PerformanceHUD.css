@@ -1,0 +1,22 @@
+.performance-hud {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.75);
+  color: #0f0;
+  padding: 0.75rem 1rem;
+  font-size: 14px;
+  font-family: monospace;
+  border-radius: 8px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.alerts {
+  margin-top: 0.5rem;
+  color: #f55;
+}
+
+.alert {
+  font-weight: bold;
+}
