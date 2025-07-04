@@ -249,22 +249,20 @@ Renders a real-time analytics dashboard for multiple websites using streaming We
 
 ---
 
-🧠 usePerformanceMonitor Hook
-Purpose
-usePerformanceMonitor is a custom React hook that monitors key frontend performance metrics in real time, including:
+## 🧠 `usePerformanceMonitor` Hook
 
-Frames per second (FPS)
+A custom React hook for **real-time monitoring of frontend performance metrics**:
 
-JavaScript memory usage
+- 🎞️ **Frames Per Second (FPS)**
+- 🧠 **JavaScript Memory Usage**
+- 🌐 **WebSocket Latency**
+- 🚨 **Auto-generated Alerts** for performance bottlenecks
 
-WebSocket latency
+---
 
-Auto-generated alert messages for performance bottlenecks
+### 📦 Return Type
 
-📦 Return Type
-ts
-Copy
-Edit
+```ts
 interface PerformanceStats {
   fps: number;             // Frames per second (render speed)
   memoryUsedMB: number;    // JS heap used (in MB)
@@ -272,36 +270,41 @@ interface PerformanceStats {
   latencyMs: number;       // WebSocket ping-pong round-trip latency
   alerts: string[];        // Warnings like ⚠️ Low FPS, 🚨 High Memory Usage
 }
-📡 Parameters
-ts
-Copy
-Edit
+```
+
+---
+
+### 📡 Parameters
+
+```ts
 usePerformanceMonitor(ws: WebSocket | null): PerformanceStats
-Parameter	Type	Description
-ws	WebSocket | null	An optional open WebSocket instance to test latency with periodic ping/pong messages.
+```
 
-🛠️ Internal Monitors
-🎞️ FPS Tracker
-Uses requestAnimationFrame to count frames per second
+| Parameter | Type              | Description                                                                 |
+|-----------|-------------------|-----------------------------------------------------------------------------|
+| `ws`      | `WebSocket \| null` | Optional open WebSocket instance for latency measurement (ping/pong support) |
 
-Adds ⚠️ Low FPS alert when FPS < 30
+---
 
-🧠 Memory Usage
-Uses window.performance.memory every 3 seconds (if supported)
+### 🛠️ Internal Monitors
 
-Adds 🚨 High Memory Usage alert when usedJSHeapSize > 400MB
+- **🎞️ FPS Tracker:**  
+  Uses `requestAnimationFrame` to count frames per second.  
+  Adds ⚠️ **Low FPS** alert when FPS < 30.
 
-🌐 WebSocket Latency
-Sends ping messages every 5 seconds
+- **🧠 Memory Usage:**  
+  Uses `window.performance.memory` every 3 seconds (if supported).  
+  Adds 🚨 **High Memory Usage** alert when used JS heap > 400MB.
 
-Measures latency using time delta from pong reply
+- **🌐 WebSocket Latency:**  
+  Sends ping messages every 5 seconds and measures round-trip time.  
+  Adds ⚠️ **High WebSocket Latency** alert if latency > 200ms.
 
-Adds ⚠️ High WebSocket Latency if latency > 200ms
+---
 
-✅ Example Usage
-tsx
-Copy
-Edit
+### ✅ Example Usage
+
+```tsx
 import { usePerformanceMonitor } from "../hooks/usePerformanceMonitor";
 
 const DashboardFooter = ({ ws }: { ws: WebSocket }) => {
@@ -310,13 +313,19 @@ const DashboardFooter = ({ ws }: { ws: WebSocket }) => {
   return (
     <div className="text-sm text-gray-600">
       FPS: {stats.fps} | Memory: {stats.memoryUsedMB}MB / {stats.memoryTotalMB}MB | Latency: {stats.latencyMs}ms
-      <div>{stats.alerts.map((a, i) => <p key={i}>{a}</p>)}</div>
+      <div>
+        {stats.alerts.map((a, i) => <p key={i}>{a}</p>)}
+      </div>
     </div>
   );
 };
-🔒 Notes & Limitations
-performance.memory is only supported in Chromium-based browsers.
+```
 
-Requires cooperation from WebSocket server to respond with { type: "pong" } to ping messages.
+---
 
-Hook is fully self-cleaning and safe across mounts/unmounts or socket restarts.
+### 🔒 Notes & Limitations
+
+- `performance.memory` is only supported in **Chromium-based browsers**.
+- Requires WebSocket server to respond with `{ type: "pong" }` to ping messages.
+- Hook is fully self-cleaning and safe across mounts/unmounts or socket restarts.
+
