@@ -169,7 +169,7 @@ const Dashboard: React.FC = () => {
           />
         ))}
       </div>
-
+  
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={processChartData}>

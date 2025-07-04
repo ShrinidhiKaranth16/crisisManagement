@@ -16,7 +16,7 @@ export const useDataProcessor = <T = any>() => {
       const chunk = data.slice(index, index + chunkSize).map(item => ({
         ...item,
         processed: Date.now(),
-        cache: new Array(50000).fill((item as any).pageViews || 0) // ⚠️ use small memory footprint
+        cache: new Array(50000).fill((item as any).pageViews || 0) 
       }));
 
       result = [...result, ...chunk];
