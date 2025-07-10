@@ -6,12 +6,12 @@ A high-performance React + TypeScript dashboard for visualizing real-time stream
 
 ## 🔍 Overview
 
-SonarAssessment is a **real-time monitoring dashboard** for **500+ client websites**. Built for scalability and speed, it features:
+**SonarAssessment** is a scalable, real-time monitoring dashboard for **500+ client websites**. Key highlights:
 
-- ⚡ **WebSocket-based real-time data streaming**  
-- ⚛️ **React dashboard** with **data virtualization** for large datasets  
-- 🤖 **AI Assistant** for natural-language chart queries  
-- 📤 **PDF/CSV export** for reporting  
+- ⚡ **WebSocket-based real-time data streaming**
+- ⚛️ **React dashboard** with **data virtualization**
+- 🤖 **AI Assistant** for natural-language chart queries
+- 📤 **PDF/CSV export** for reporting
 - 👥 **Multi-user collaboration** with smart caching and state sync
 
 ---
@@ -32,18 +32,16 @@ SonarAssessment is a **real-time monitoring dashboard** for **500+ client websit
 
 | Category           | Stack                                         |
 |--------------------|-----------------------------------------------|
-| **Frontend**       | React + TypeScript + Vite                     |
+| **Frontend**       | React, TypeScript, Vite                       |
 | **Realtime Data**  | WebSocket (`wss://...`)                       |
 | **Styling**        | Tailwind CSS                                  |
-| **Charts**         | Recharts / Chart.js                           |
-| **Exports**        | jsPDF / FileSaver.js / papaparse              |
+| **Charts**         | Recharts, Chart.js                            |
+| **Exports**        | jsPDF, FileSaver.js, papaparse                |
 | **Dev Tools**      | ESLint, Prettier, Husky                       |
 
 ---
 
 ## 🛠️ Installation
-
-Clone and install dependencies:
 
 ```bash
 git clone https://github.com/ShrinidhiKaranth16/sonarAssesment.git
@@ -54,8 +52,6 @@ npm install
 ---
 
 ## 📜 Scripts
-
-Development and production commands:
 
 ```bash
 # Start dev server
@@ -97,7 +93,7 @@ sonarAssesment/
 
 ## 🔌 WebSocket System
 
-The `useWebSocket` hook connects to:
+Connects to:
 
 ```
 wss://sonar-lab-server-8881cb834ac4.herokuapp.com/
@@ -106,8 +102,6 @@ wss://sonar-lab-server-8881cb834ac4.herokuapp.com/
 ---
 
 ## 📦 Data Types
-
-Core real-time analytics models:
 
 ### `Page`
 
@@ -162,24 +156,12 @@ Interfaces are used in:
 
 ## 📡 useWebSocket Hook
 
-**Purpose:**  
-Streams real-time `DataPoint` objects from a WebSocket endpoint. Designed for high-frequency, low-memory data ingestion.
-
-**Usage:**
+**Streams real-time `DataPoint` objects from a WebSocket endpoint.**  
+Designed for high-frequency, low-memory data ingestion.
 
 ```tsx
 const data = useWebSocket();
 ```
-
-Returns an auto-updating array of the latest `DataPoint` items.
-
-**WebSocket Endpoint:**
-
-```
-wss://sonar-lab-server-8881cb834ac4.herokuapp.com/
-```
-
-**Behavior:**
 
 - Connects on mount (`useEffect`)
 - Parses each message into a `DataPoint`
@@ -187,7 +169,7 @@ wss://sonar-lab-server-8881cb834ac4.herokuapp.com/
 - Handles errors gracefully
 - Closes socket on unmount
 
-**Example Integration:**
+**Example:**
 
 ```tsx
 const Dashboard = () => {
@@ -200,21 +182,9 @@ const Dashboard = () => {
 
 ## 📊 Dashboard Component
 
-**Purpose:**  
-Renders a real-time analytics dashboard for multiple websites using streaming WebSocket data. Aggregates and visualizes:
+**Renders a real-time analytics dashboard for multiple websites using streaming WebSocket data.**
 
-- Page views over time
-- Top-performing pages
-- User navigation flow
-
-**Features:**
-
-- ✅ Real-time updates
-- ✅ Multi-site switching
-- ✅ Aggregated charts
-- ✅ Modular, lightweight
-
-**Charts Rendered:**
+### Charts Rendered
 
 | Chart                | Description                                 |
 |----------------------|---------------------------------------------|
@@ -222,7 +192,7 @@ Renders a real-time analytics dashboard for multiple websites using streaming We
 | TopPagesBarChart     | Views per page path (bar chart)             |
 | UserFlowHeatMap      | User page transitions (heatmap)             |
 
-**State Management:**
+### State Management
 
 - `data`: Streamed from `useWebSocket`
 - `uniqueSites`: All distinct sites from data
@@ -231,7 +201,7 @@ Renders a real-time analytics dashboard for multiple websites using streaming We
 - `barChartData`: Aggregated views per page
 - `heatMapData`: Transition flow between pages
 
-**Key Logic:**
+### Key Logic
 
 - Initializes first site on load
 - Aggregates/transforms `DataPoint[]` by selected site
@@ -240,7 +210,7 @@ Renders a real-time analytics dashboard for multiple websites using streaming We
   - Watch/parse new streaming data
   - Update visualizations on site change
 
-**Enhancement Ideas:**
+### Enhancement Ideas
 
 - Persist last selected site (localStorage)
 - Add chart export/download
@@ -251,16 +221,14 @@ Renders a real-time analytics dashboard for multiple websites using streaming We
 
 ## 🧠 `usePerformanceMonitor` Hook
 
-A custom React hook for **real-time monitoring of frontend performance metrics**:
+Custom React hook for **real-time monitoring of frontend performance metrics**:
 
 - 🎞️ **Frames Per Second (FPS)**
 - 🧠 **JavaScript Memory Usage**
 - 🌐 **WebSocket Latency**
 - 🚨 **Auto-generated Alerts** for performance bottlenecks
 
----
-
-### 📦 Return Type
+### Return Type
 
 ```ts
 interface PerformanceStats {
@@ -272,9 +240,7 @@ interface PerformanceStats {
 }
 ```
 
----
-
-### 📡 Parameters
+### Parameters
 
 ```ts
 usePerformanceMonitor(ws: WebSocket | null): PerformanceStats
@@ -284,9 +250,7 @@ usePerformanceMonitor(ws: WebSocket | null): PerformanceStats
 |-----------|-------------------|-----------------------------------------------------------------------------|
 | `ws`      | `WebSocket \| null` | Optional open WebSocket instance for latency measurement (ping/pong support) |
 
----
-
-### 🛠️ Internal Monitors
+### Internal Monitors
 
 - **🎞️ FPS Tracker:**  
   Uses `requestAnimationFrame` to count frames per second.  
@@ -300,9 +264,7 @@ usePerformanceMonitor(ws: WebSocket | null): PerformanceStats
   Sends ping messages every 5 seconds and measures round-trip time.  
   Adds ⚠️ **High WebSocket Latency** alert if latency > 200ms.
 
----
-
-### ✅ Example Usage
+### Example Usage
 
 ```tsx
 import { usePerformanceMonitor } from "../hooks/usePerformanceMonitor";
@@ -323,7 +285,32 @@ const DashboardFooter = ({ ws }: { ws: WebSocket }) => {
 
 ---
 
-### 🔒 Notes & Limitations
+## 🎥 Walkthrough Video
+
+Watch a short video for a visual explanation of the system’s behavior and architecture:
+
+🔗 [**Loom Video — Dashboard Demo & Averaging Logic**](https://www.loom.com/share/786a30ff634a4fd9bcbaf112c75098fb?sid=638cc84b-1f7b-4f41-9e0c-fbe97460f6f9)
+
+---
+
+## 📊 Data Averaging Logic
+
+To ensure optimal memory usage and performance:
+
+- Maintains only the **latest 200 `DataPoint` entries** in the live dataset.
+- All data **before these 200 entries is averaged** into a single aggregate baseline.
+
+**This means:**
+
+- The array size appears constant (e.g., `200`)
+- The chart keeps evolving over time
+- New incoming data gradually shifts the average, keeping the graph **dynamic and accurate**
+
+🔁 **Prevents memory bloat while maintaining meaningful visual trends.**
+
+---
+
+## 🔒 Notes & Limitations
 
 - `performance.memory` is only supported in **Chromium-based browsers**.
 - Requires WebSocket server to respond with `{ type: "pong" }` to ping messages.
